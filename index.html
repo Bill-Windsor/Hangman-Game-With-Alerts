@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Hangman</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css"/>
+  </head>
+
+<body> 
+
+	<h1 id="top_header">Hangman!</h1> <br><br>
+
+	<div class="container">
+
+	<div id="activeWordQueue">
+
+		<h3>We are here.</h3>
+
+		<p id="continueLetter">Please input another letter.</p> <br><br>
+
+		<p id="activeWordGuesses"> active word here </p> <br><br>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+First Name: <input type="text" id="myText" value="Bartholomew">
+
+<p>Click the button to display the value of the documentElementById('myText') field.</p> <br>
+
+<button onclick="myFunction()">Try it</button> <br>
+
+Number 1: <input type="text" id="num1">
++
+Number 2: <input type="text" id="num2">
+
+<button onclick="addFunction()"> Push for  =   </button> <br>
+
+<p id="output">Output text here.</p> <br>
+
+<p id="inputCharacters"></p>
+
+
+<script type="text/javascript">
+
+/* from DrapsTV video: "JavaScript Tutorial #3: Input and Output" */
+
+	function myFunction() {
+    var x = document.getElementById("myText").value;
+    document.getElementById("inputCharacters").innerHTML = x;
+	}
+
+	document.getElementById("myText").value = "Michaelson";
+	var x = document.getElementById("myText").value;
+
+	function addFunction()  {
+		var num1 = parseInt(document.getElementById("num1").value);
+		var num2 = parseInt(document.getElementById("num2").value);
+		document.getElementById("output").innerHTML = num1 + num2;
+	}
+
+   document.getElementById("continueLetter").innerHTML = "Here is a new text input for the paragraph.";
+   document.getElementById("activeWordGuesses").innerHTML = "A different text input for the paragraph.";
+
+
+/* 
+Return the value property:
+textObject.value
+
+Set the value property:
+textObject.value = text
+
+*/
+
+// Hangman Game Engine  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+	var gameAgain = "Y";
+	var playAgain = true;
+
+	var categoryArray = ["Night", "Outcome", "Invention"];
+
+	var nightArray = ["somnambulist", "nocturnal", "twilight", "midnight", "sundown", "sleep", "evening", "slumber"];
+
+	var outcomeArray = ["success", "victory", "unresolved", "completed", "unresolved", "travesty", "closure", "victorious", "triumph"];
+
+	var inventionArray = ["contraption", "innovation", "creation", "patentable", "gizmo", "technology", "innovative", "product", "transformation"];
+
+	while (playAgain)  {
+
+	var categorySelect = (Math.floor(Math.random() * 3));
+
+		if (categorySelect === 0)  {
+			console.log("Category: night time");
+			var mysteryWord = nightArray[Math.floor(Math.random() * nightArray.length)];
+		}
+		else if (categorySelect === 1)  {
+			console.log("Category: outcome");
+			var mysteryWord = outcomeArray[Math.floor(Math.random() * outcomeArray.length)];
+		}
+		else if (categorySelect === 2)  {
+			console.log("Category: invention");
+			var mysteryWord = inventionArray[Math.floor(Math.random() * inventionArray.length)];
+		}
+
+		alert("The category is: " + categoryArray[categorySelect]);
+		alert("The mystery word is: " + mysteryWord);
+		console.log("The mystery word is: " + mysteryWord);
+
+	/* now to finish:
+	  - count number of guesses, to determine max # guesses
+	  - generate the user input / game output to a screen;  use Form Input and Button
+	  - generate the background scenery
+	  - draw the hangman diagram
+	  - reward the user with the rock band photo and song
+	  */
+
+		var answerArray = [];
+		for (var i = 0; i < mysteryWord.length; i++ )  {
+			answerArray[i] = "_";
+		}
+		var remainingLetters = mysteryWord.length;
+		var lettersCorrect = 0;
+		var guessCorrect = 0;
+		var maxWrongGuesses = 15;
+
+//		alert("Your remainingLetters = " + remainingLetters);
+		alert("So far, your word is:  " + answerArray.join(" "));
+
+		while ((remainingLetters > 0) & (maxWrongGuesses != 0))  {
+
+			var guess =  prompt("Please guess a letter:  ");
+
+			if (guess.length !== 1)  {
+				alert("Please enter one letter.");
+			}
+
+			else {
+				for (var j = 0; j < mysteryWord.length; j++)  {
+					if (mysteryWord[j] === guess)  {
+						lettersCorrect++;
+						guessCorrect++;
+						remainingLetters--;
+						answerArray[j] = guess;
+					}
+				}
+			alert("guessCorrect value = " + guessCorrect);
+
+				if (guessCorrect === 0)  {
+					maxWrongGuesses--;
+				}
+			}
+
+			guessCorrect = 0;
+
+			alert("remainingLetters value = " + remainingLetters);
+			alert("lettersCorrect value = " + lettersCorrect);
+			alert("So far, your word is:  " + answerArray.join(" ") + " . You have " + maxWrongGuesses + "guesses remaining.");
+		}
+
+		if (lettersCorrect === mysteryWord.length)  {
+			alert("Congratulations, you guessed the correct word:  " + answerArray.join(""));
+
+			console.log(answerArray.join(" "));
+			console.log("Good job! The answer is: " + mysteryWord);
+		}
+		else if (maxWrongGuesses === 0)  {
+			alert("Too bad, you ran out of guesses.")
+		}
+
+			gameAgain = prompt("Play again? (Y/N)");
+			if (gameAgain === "Y")  {
+				playAgain = true;
+			}
+				else if (gameAgain === "N")  {
+				playAgain = false;
+				}
+				else if (gameAgain === null)  {
+				playAgain = false;
+				}
+				else  { 
+				alert("Please enter one letter answer, Y for Yes, or N for No.");
+				gameAgain = prompt("Play again? (Y/N)");
+				}
+		}
+
+	</script>
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+	<clear both>
+
+		<div id="main_box">
+
+			<div id="info_box">
+
+		 		<div id="info_name">Contact</div>
+				<hr noshade size=2 color=darkgray align=center width=90%>
+
+				<form>
+					<div>
+	 			    	<label>Name</label> <br>
+				    	<input type="text" id="name"> <br>
+					</div>
+				    <div>
+ 			    		<label>Email</label> <br>
+			    		<input type="email" id="mail"> <br>
+				    </div>
+ 					<div>
+				    	<label>Message</label> <br>
+						<textarea id="msg"></textarea> <br>
+					</div> 
+					<br><br>
+					<button type="submit">Submit</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+</body>
+</html>
